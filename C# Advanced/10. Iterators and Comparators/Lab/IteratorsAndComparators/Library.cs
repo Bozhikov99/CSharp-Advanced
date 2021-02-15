@@ -6,11 +6,11 @@ namespace IteratorsAndComparators
 {
     public class Library: IEnumerable<Book>
     {
-        private readonly List<Book> books;
+        private readonly SortedSet<Book> books;
         public Library(params Book[] books)
         {
-            SortedSet<Book> a = new SortedSet<Book>(books, new BookComparer());
-            this.books = new List<Book>(books);
+            SortedSet<Book> bookList = new SortedSet<Book>(books, new BookComparator());
+            this.books = bookList;
         }
 
         public IEnumerator<Book> GetEnumerator()

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace IteratorsAndComparators
 {
@@ -24,10 +23,10 @@ namespace IteratorsAndComparators
 
         public int CompareTo(Book other)
         {
-            int result = Year.CompareTo(other.Year);
+            int result = Title.CompareTo(other.Title);
             if (result==0)
             {
-                return Title.CompareTo(other.Title);
+                return other.Year.CompareTo(Year);
             }
             return result;
         }
