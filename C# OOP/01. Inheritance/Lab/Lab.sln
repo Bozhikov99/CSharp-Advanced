@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farm", "Farm\Farm.csproj", "{0A3A0B5F-FE13-465C-886A-AFC676CEF341}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02. Multiple Inheritance", "02. Multiple Inheritance\02. Multiple Inheritance.csproj", "{0844C3DE-CDD9-4CD5-B9E4-91F2E0AC1A40}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03. Hierarchical Inheritance", "03. Hierarchical Inheritance\03. Hierarchical Inheritance.csproj", "{0031FB7A-CE39-4DDD-9A03-277B4AE7C9D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "04. Random List", "04. Random List\04. Random List.csproj", "{60ED0F21-5B00-4CEC-A0E0-418E9AABFC57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05. Stack of Strings", "05. Stack of Strings\05. Stack of Strings.csproj", "{223EDB45-3C3A-4EC2-83EA-7A09840BF7F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "05. Stack of Strings", "05. Stack of Strings\05. Stack of Strings.csproj", "{223EDB45-3C3A-4EC2-83EA-7A09840BF7F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0A3A0B5F-FE13-465C-886A-AFC676CEF341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A3A0B5F-FE13-465C-886A-AFC676CEF341}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A3A0B5F-FE13-465C-886A-AFC676CEF341}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A3A0B5F-FE13-465C-886A-AFC676CEF341}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0844C3DE-CDD9-4CD5-B9E4-91F2E0AC1A40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0844C3DE-CDD9-4CD5-B9E4-91F2E0AC1A40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0844C3DE-CDD9-4CD5-B9E4-91F2E0AC1A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
