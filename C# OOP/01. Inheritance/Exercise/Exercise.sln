@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Person", "01. Person\Person
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zoo", "02. Zoo\Zoo.csproj", "{D943BBD2-97AE-46EF-AF09-12BB1330DA41}"
 EndProject
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03. Players and monsters", "03. Players and monsters\03. Players and monsters.csproj", "{72309B05-D565-4DDC-BE9F-F57BDC786511}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeedForSpeed", "NeedForSpeed\NeedForSpeed.csproj", "{35CE6560-66BC-4D13-95C0-6BB58A35DA39}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03. Players and monsters", "03. Players and monsters\03. Players and monsters.csproj", "{72309B05-D565-4DDC-BE9F-F57BDC786511}"
+>>>>>>> ae6a5fa234a4f2220fbbaf2aca7eabbbe0608b8f
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +33,13 @@ Global
 		{72309B05-D565-4DDC-BE9F-F57BDC786511}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72309B05-D565-4DDC-BE9F-F57BDC786511}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72309B05-D565-4DDC-BE9F-F57BDC786511}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{35CE6560-66BC-4D13-95C0-6BB58A35DA39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{35CE6560-66BC-4D13-95C0-6BB58A35DA39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35CE6560-66BC-4D13-95C0-6BB58A35DA39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35CE6560-66BC-4D13-95C0-6BB58A35DA39}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+>>>>>>> ae6a5fa234a4f2220fbbaf2aca7eabbbe0608b8f
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
