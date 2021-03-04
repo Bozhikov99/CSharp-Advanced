@@ -1,5 +1,4 @@
-﻿using PersonInfo.Contracts;
-using System;
+﻿using System;
 
 namespace PersonInfo
 {

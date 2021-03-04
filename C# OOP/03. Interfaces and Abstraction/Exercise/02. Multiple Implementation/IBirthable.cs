@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PersonInfo.Contracts
+namespace PersonInfo
 {
     public interface IBirthable
     {
