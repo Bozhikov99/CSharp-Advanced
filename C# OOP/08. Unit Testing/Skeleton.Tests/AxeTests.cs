@@ -31,7 +31,7 @@ public class AxeTests
     [Test]
     public void When_AttackWithBrokenAxe_ThrowException()
     {
-        Assert.Throws<InvalidOperationException>(() =>
+        InvalidOperationException x= Assert.Throws<InvalidOperationException>(() =>
         {
             for (int i = 0; i < 3; i++)
             {
@@ -39,5 +39,6 @@ public class AxeTests
             }
         });
 
+        Assert.AreEqual(x.Message, "Axe is broken.");
     }
 }

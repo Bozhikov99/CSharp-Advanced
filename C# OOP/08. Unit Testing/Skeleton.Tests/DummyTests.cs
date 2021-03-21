@@ -25,13 +25,16 @@ public class DummyTests
 
         testDummy.TakeAttack(attack);
 
-        Assert.AreEqual(health - 2, testDummy.Health);
+        Assert.That(health - 2== testDummy.Health, "The dummy should lose health when attacked.");
     }
 
     [Test]
     public void When_AttackedDead_ThrowException()
     {
-        testDummy = new Dummy(0, 2);
+        int dummyHealth = 0;
+        int dummyXP = 2;
+
+        testDummy = new Dummy(dummyHealth, dummyXP);
 
         Assert.Throws<InvalidOperationException>(() =>
         {
@@ -42,10 +45,12 @@ public class DummyTests
     [Test]
     public void When_Dead_GiveXP()
     {
+        int dummyHealth = 0;
         int experience = 2;
-        testDummy = new Dummy(0, experience);
 
-        Assert.AreEqual(testDummy.GiveExperience(), experience);
+        testDummy = new Dummy(dummyHealth, experience);
+
+        Assert.That(testDummy.GiveExperience()==experience, "The dead dummy must give experience.");
     }
 
     [Test]
