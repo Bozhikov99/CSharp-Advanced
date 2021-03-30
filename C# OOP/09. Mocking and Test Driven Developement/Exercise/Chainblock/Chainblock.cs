@@ -61,7 +61,11 @@ namespace Chainblock
 
         public IEnumerable<ITransaction> GetAllInAmountRange(double lo, double hi)
         {
-            throw new NotImplementedException();
+            List<ITransaction> filtered = transactions.Values
+                .Where(t => t.Amount >= lo && t.Amount <= hi)
+                .ToList();
+
+            return filtered;
         }
 
         public IEnumerable<ITransaction> GetAllOrderedByAmountDescendingThenById()
@@ -120,17 +124,47 @@ namespace Chainblock
 
         public IEnumerable<ITransaction> GetByReceiverAndAmountRange(string receiver, double lo, double hi)
         {
-            throw new NotImplementedException();
+            List<ITransaction> filtered = transactions.Values
+               .Where(t => t.To == receiver && t.Amount >= lo && t.Amount <= hi)
+               .ToList();
+
+            if (filtered.Count==0)
+            {
+                throw new InvalidOperationException("No transactions match your criteria!");
+            }
+
+            return filtered;
         }
 
         public IEnumerable<ITransaction> GetByReceiverOrderedByAmountThenById(string receiver)
         {
-            throw new NotImplementedException();
+            List<ITransaction> receiversOrdered = transactions.Values
+                .OrderBy(t => t.Amount)
+                .ThenBy(t => t.To)
+                .Where(t => t.To == receiver)
+                .ToList();
+
+            if (receiversOrdered.Count == 0)
+            {
+                throw new InvalidOperationException("Sender Does Not Exist!");
+            }
+
+            return receiversOrdered;
         }
 
         public IEnumerable<ITransaction> GetBySenderAndMinimumAmountDescending(string sender, double amount)
         {
-            throw new NotImplementedException();
+            List<ITransaction> filtered = transactions.Values
+                .OrderByDescending(t => t.Amount)
+                .Where(t => t.From == sender && t.Amount >= amount)
+                .ToList();
+
+            if (filtered.Count==0)
+            {
+                throw new InvalidOperationException("There are no senders who match your criteria!");
+            }
+
+            return filtered;
         }
 
         public IEnumerable<ITransaction> GetBySenderOrderedByAmountDescending(string sender)
@@ -165,7 +199,11 @@ namespace Chainblock
 
         public IEnumerable<ITransaction> GetByTransactionStatusAndMaximumAmount(TransactionStatus status, double amount)
         {
-            throw new NotImplementedException();
+            List<ITransaction> filtered = transactions.Values
+                .Where(t => t.Status == status && t.Amount <= amount)
+                .ToList();
+
+            return filtered;
         }
 
         public IEnumerator<ITransaction> GetEnumerator()

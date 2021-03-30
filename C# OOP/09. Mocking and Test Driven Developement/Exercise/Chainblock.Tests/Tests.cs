@@ -168,7 +168,7 @@ namespace Chainblock.Tests
 
             List<string> senders = transactions.Values
                 .OrderBy(t => t.Amount)
-                .Where(t=>t.Status==TransactionStatus.Unauthorized)
+                .Where(t => t.Status == TransactionStatus.Unauthorized)
                 .Select(t => t.From)
                 .ToList();
 
@@ -213,11 +213,11 @@ namespace Chainblock.Tests
         {
             CreateBulkOfTransactions();
 
-            string sender = "Sender0";
+            string sender = "Sender1";
 
             List<ITransaction> sendersOrdered = transactions.Values
                 .OrderByDescending(t => t.Amount)
-                .Where(t=>t.From==sender)
+                .Where(t => t.From == sender)
                 .ToList();
 
             Assert.That(sendersOrdered, Is.EquivalentTo(testChainblock.GetBySenderOrderedByAmountDescending(sender)));
@@ -229,6 +229,148 @@ namespace Chainblock.Tests
             CreateBulkOfTransactions();
 
             Assert.Throws<InvalidOperationException>(() => testChainblock.GetBySenderOrderedByAmountDescending("Sulio"));
+        }
+
+        [Test]
+        public void GetByReceiverOrderedByAmountThenById_ThrowsException_WhenReceiverDoesNotExist()
+        {
+            Assert.Throws<InvalidOperationException>(() => testChainblock.GetByReceiverOrderedByAmountThenById("Pulio"));
+        }
+
+        [Test]
+        public void GetByReceiverOrderedByAmountThenById_ReturnsCorrectly()
+        {
+            CreateBulkOfTransactions();
+
+            string receiver = "Razvigor";
+
+            List<ITransaction> receiversOrdered = transactions.Values
+                .OrderBy(t => t.Amount)
+                .ThenBy(t => t.Id)
+                .Where(t => t.To == receiver)
+                .ToList();
+
+            Assert.That(receiversOrdered, Is.EquivalentTo(testChainblock.GetByReceiverOrderedByAmountThenById(receiver)));
+        }
+
+        [Test]
+        public void GetByTransactionStatusAndMaximumAmount_ReturnsEmptyCollection_WhenThereAreNoTransactions()
+        {
+            TransactionStatus status = TransactionStatus.Successfull;
+            double amount = 90;
+
+            Assert.That(testChainblock.GetByTransactionStatusAndMaximumAmount(status, amount), Is.Empty);
+        }
+
+        [Test]
+        [TestCase(TransactionStatus.Aborted, 90)]
+        [TestCase(TransactionStatus.Successfull, 1000)]
+        public void GetByTransactionStatusAndMaximumAmount_ReturnsEmptyCollection_WhenThereAreNoMatches(TransactionStatus status, double amount)
+        {
+            Transaction tx = new Transaction(1, "Sracimir", "Dimitar", 100);
+            tx.Status = TransactionStatus.Aborted;
+
+            Transaction tx1 = new Transaction(2, "Mihail", "Murjo", 450.12);
+            tx.Status = TransactionStatus.Failed;
+
+            transactions.Add(tx.Id, tx);
+            transactions.Add(tx1.Id, tx1);
+
+            Assert.That(testChainblock.GetByTransactionStatusAndMaximumAmount(status, amount), Is.Empty);
+        }
+
+        [Test]
+        public void GetByTransactionStatusAndMaximumAmount_ReturnsCorrectly()
+        {
+            TransactionStatus status = TransactionStatus.Successfull;
+            double amount = 215.50;
+
+            List<ITransaction> filtered = transactions.Values
+                .Where(t => t.Status == status && t.Amount <= amount)
+                .ToList();
+
+            Assert.That(filtered, Is.EquivalentTo(testChainblock.GetByTransactionStatusAndMaximumAmount(status, amount)));
+        }
+
+        [Test]
+        [TestCase("Sender1", 928.72)]
+        [TestCase("Sender900", 10)]
+        public void GetBySenderAndMinimumAmountDescending_ThrowsException_WhenNoMatches(string sender, double amount)
+        {
+            CreateBulkOfTransactions();
+
+            Assert.Throws<InvalidOperationException>(() => testChainblock.GetBySenderAndMinimumAmountDescending(sender, amount));
+        }
+
+        [Test]
+        public void GetBySenderAndMinimumAmountDescending_ThrowsException_WhenEmpty()
+        {
+            Assert.Throws<InvalidOperationException>(() => testChainblock.GetBySenderAndMinimumAmountDescending("Sender1", 0));
+        }
+
+        [Test]
+        public void GetBySenderAndMinimumAmountDescending_ReturnsCorrectly()
+        {
+            CreateBulkOfTransactions();
+
+            string sender = "Mitaka";
+            double amount = 50.99;
+
+            List<ITransaction> filtered = transactions.Values
+                .OrderByDescending(t => t.Amount)
+                .Where(t => t.From == sender && t.Amount >= amount)
+                .ToList();
+
+            Assert.That(filtered, Is.EquivalentTo(testChainblock.GetBySenderAndMinimumAmountDescending(sender, amount)));
+        }
+
+        [Test]
+        [TestCase("Pesho",1,230)]
+        [TestCase("Razvigor",290,1000.10)]
+        public void GetByReceiverAndAmountRange_ThrowsException_WhenThereAreNoMatches(string receiver, double minimum, double maximum)
+        {
+            CreateBulkOfTransactions();
+
+            Assert.Throws<InvalidOperationException>(() => testChainblock.GetByReceiverAndAmountRange(receiver, minimum, maximum));
+        }
+
+        [Test]
+        public void GetByReceiverAndAmountRange_ThrowsException_WhenCollectionIsEmpty()
+        {
+            Assert.Throws<InvalidOperationException>(() => testChainblock.GetByReceiverAndAmountRange("Razvigor", 1, 230));
+        }
+
+        [Test]
+        public void GetByReceiverAndAmountRange_ReturnsCorrectly()
+        {
+            CreateBulkOfTransactions();
+
+            List<ITransaction> filtered = transactions.Values
+                .Where(t => t.To == "Razvigor" && t.Amount >= 100 && t.Amount <= 290)
+                .ToList();
+
+            Assert.That(testChainblock.GetByReceiverAndAmountRange("Razvigor", 100, 290), Is.EquivalentTo(filtered));
+        }
+
+        [Test]
+        public void GetAllInAmountRange_ReturnsEmpty_WhenNoMatches()
+        {
+            CreateBulkOfTransactions();
+
+            Assert.That(testChainblock.GetAllInAmountRange(300, 350),Is.Empty);
+        }
+
+        [Test]
+        public void GetAllInAmountRange_ReturnsCorrectly()
+        {
+            double min = 100;
+            double max = 200;
+
+            List<ITransaction> filtered = transactions.Values
+                .Where(t => t.Amount >= min && t.Amount <= max)
+                .ToList();
+
+            Assert.That(filtered, Is.EquivalentTo(testChainblock.GetAllInAmountRange(min, max)));
         }
 
         private Transaction CreateSimpleTransaction()
@@ -262,6 +404,16 @@ namespace Chainblock.Tests
                 if (i % 10 == 0)
                 {
                     amount = 200;
+                }
+
+                if (i % 20 == 0)
+                {
+                    receiverName = "Razvigor";
+                }
+
+                if (i%30==0)
+                {
+                    senderName = "Mitaka";
                 }
 
                 Transaction tx = new Transaction(i, senderName, receiverName, 100 + i);
