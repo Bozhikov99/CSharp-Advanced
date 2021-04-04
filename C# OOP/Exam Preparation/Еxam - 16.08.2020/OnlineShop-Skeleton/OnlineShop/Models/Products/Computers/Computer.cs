@@ -8,15 +8,16 @@ using System.Text;
 
 namespace OnlineShop.Models.Products.Computers
 {
-    public abstract class Computer :Product, IComputer
+    public abstract class Computer : Product, IComputer
     {
         private double computerPerformance;
         private decimal computerPrice;
         private readonly List<IComponent> components;
         private readonly List<IPeripheral> peripherals;
-        protected Computer(int id, string manufacturer, string model, decimal price, double performance) 
+        protected Computer(int id, string manufacturer, string model, decimal price, double performance)
             : base(id, manufacturer, model, price, performance)
         {
+            computerPrice = price;
             computerPerformance = performance;
             components = new List<IComponent>();
             peripherals = new List<IPeripheral>();
@@ -26,14 +27,14 @@ namespace OnlineShop.Models.Products.Computers
 
         public IReadOnlyCollection<IPeripheral> Peripherals => peripherals;
 
-        public override double OverallPerformance { get=>GetPerformance(); }
+        public override double OverallPerformance { get => GetPerformance(); }
         public override decimal Price { get => GetPrice(); }
 
         public void AddComponent(IComponent component)
         {
-            if (components.Any(c=>c.GetType()==component.GetType()))
+            if (components.Any(c => c.GetType() == component.GetType()))
             {
-                throw new ArgumentException(string.Format(ExceptionMessages.ExistingComponent,component.GetType().Name,GetType().Name,Id));
+                throw new ArgumentException(string.Format(ExceptionMessages.ExistingComponent, component.GetType().Name, GetType().Name, Id));
             }
 
             components.Add(component);
@@ -51,7 +52,7 @@ namespace OnlineShop.Models.Products.Computers
 
         public IComponent RemoveComponent(string componentType)
         {
-            if (!components.Any(c=>c.GetType().Name==componentType))
+            if (!components.Any(c => c.GetType().Name == componentType))
             {
                 throw new ArgumentException(string.Format(ExceptionMessages.NotExistingComponent, componentType, GetType().Name, Id));
             }
@@ -69,7 +70,7 @@ namespace OnlineShop.Models.Products.Computers
                 throw new ArgumentException(string.Format(ExceptionMessages.NotExistingPeripheral, peripheralType, GetType().Name, Id));
             }
 
-            IPeripheral peripheral= peripherals.First(c => c.GetType().Name == peripheralType);
+            IPeripheral peripheral = peripherals.First(c => c.GetType().Name == peripheralType);
             peripherals.Remove(peripheral);
 
             return peripheral;
@@ -87,8 +88,14 @@ namespace OnlineShop.Models.Products.Computers
                 sb.AppendLine($"  {c}");
             }
 
-            sb.AppendLine($" Peripherals ({peripherals.Count}); Average Overall Performance ({peripherals.Average(p=>p.OverallPerformance)}):");
-
+            if (peripherals.Count == 0)
+            {
+                sb.AppendLine($" Peripherals ({peripherals.Count}); Average Overall Performance (0.00):");
+            }
+            else
+            {
+                sb.AppendLine($" Peripherals ({peripherals.Count}); Average Overall Performance ({peripherals.Average(p => p.OverallPerformance):f2}):");
+            }
             foreach (IPeripheral p in peripherals)
             {
                 sb.AppendLine($"  {p}");
@@ -104,7 +111,7 @@ namespace OnlineShop.Models.Products.Computers
 
         private double GetPerformance()
         {
-            if (components.Count==0)
+            if (components.Count == 0)
             {
                 return computerPerformance;
             }
